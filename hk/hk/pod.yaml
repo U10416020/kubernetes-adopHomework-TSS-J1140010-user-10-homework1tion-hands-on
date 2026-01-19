@@ -26,14 +26,14 @@ spec:
 	  containerPort: 80
 	  protocol: TCP
 	env:
-  - name: DB_HOST
-    value: "192.168.0.1"
+  	- name: DB_HOST
+	  value: "192.168.0.1"
 	- name: DB_NAME
-		value: "foobar"
+	  value: "foobar"
 	resources:
 	  requests:
-			memory: "50Mi"
-			cpu: "10m"
-		limits:
-			memory: "128Mi"
-      cpu: "100m"
+	    memory: "50Mi"
+		cpu: "10m"
+	  limits:
+	    memory: "128Mi"
+		cpu: "100m"
