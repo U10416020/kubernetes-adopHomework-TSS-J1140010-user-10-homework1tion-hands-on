@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: hands-on
+  name: hands-on
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hands-on
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: hands-on
+    spec:
+      containers:
+      - image: nginx:latest
+        name: nginx
+        resources: {}
+	ports:
+	- name: http
+	  containerPort: 80
+	  protocol: TCP
+	env:
+  - name: DB_HOST
+    value: "192.168.0.1"
+	- name: DB_NAME
+		value: "foobar"
+	resources:
+	  requests:
+			memory: "50Mi"
+			cpu: "10m"
+		limits:
+			memory: "128Mi"
+      cpu: "100m"
