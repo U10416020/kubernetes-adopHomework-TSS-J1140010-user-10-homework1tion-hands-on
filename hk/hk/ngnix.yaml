@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+  labels:
+    version: "1"
+    app: nginx
+  namespace: user-10
+spec:
+  containers:
+    - name: nginx
+      image: nginx:latest
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: user10secret
+              key: DATABASE_HOST
+      ports:
+        - name: configmap-pod
+          containerPort: 80
+          protocol: TCP
+      volumeMounts:
+        - mountPath: "/tmp"
+          name: secret-config
+          readOnly: true
+        - mountPath: "/etc/nginx/conf.d"
+          name: nginx-config
+          readOnly: true
+  volumes:
+    - name: nginx-config
+      configMap:
+        name: nginx-config
+        defaultMode: 0644
+    - name: secret-config
+      secret:
+        secretName: user10secret
+        defaultMode: 0644
+        items:
+          - key: DATABASE_USER
+            path: DATABASE_USER
+          - key: DATABASE_PASSWORD
+            path: DATABASE_PASSWORD
+  restartPolicy: Always
